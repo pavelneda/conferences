@@ -3,26 +3,30 @@
         <h1 class="page-title">Архів конференцій</h1>
         <div class="d-flex flex-row">
             <div class="form-floating mb-lg-5 me-3 shadow-sm">
-                <select class="form-select form-select-lg" id="floatingSelectGrid">
-                    <option selected>Всі галузі</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select v-model="filterByIndustry" @click.prevent="chooseFilterConferences"
+                        class="form-select form-select-lg" id="floatingSelectGrid">
+                    <option selected value="all">Всі галузі</option>
+                    <option v-if="archiveIndustries" v-for="industry in archiveIndustries" :value="industry">{{
+                            industry
+                        }}
+                    </option>
                 </select>
                 <label for="floatingSelectGrid">Галузь</label>
             </div>
             <div class="form-floating mb-lg-5 shadow-sm">
-                <select class="form-select form-select-lg" id="floatingSelectGrid">
-                    <option selected>Всі роки</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select v-model="filterByYear" @click.prevent="chooseFilterConferences"
+                        class="form-select form-select-lg" id="floatingSelectGrid">
+                    <option selected value="all">Всі роки</option>
+                    <option v-if="archiveYears" v-for="year in archiveYears" :value="year">{{
+                            year
+                        }}
+                    </option>
                 </select>
                 <label for="floatingSelectGrid">Рік</label>
             </div>
         </div>
         <div class="list-component__wrapper">
-            <ListComponent></ListComponent>
+            <ListComponent :conferences="filterConferences"></ListComponent>
         </div>
     </div>
 </template>
@@ -32,7 +36,53 @@ import ListComponent from "../ListComponent.vue";
 
 export default {
     name: "IndexComponent",
-    components: {ListComponent}
+    components: {ListComponent},
+
+    data() {
+        return {
+            archiveConferences: null,
+            archiveIndustries: null,
+            archiveYears: null,
+
+            filterConferences: null,
+            filterByIndustry: 'all',
+            filterByYear: 'all',
+        }
+    },
+
+    mounted() {
+        this.getConferences();
+    },
+
+    methods: {
+        getConferences() {
+            axios.get('/api/conferences/archive')
+                .then(res => {
+                    this.archiveConferences = res.data.data;
+                    this.getActualIndustriesAndYears();
+                    this.chooseFilterConferences();
+                })
+        },
+
+        getActualIndustriesAndYears() {
+            if (this.archiveConferences) {
+                this.archiveIndustries = [...new Set(this.archiveConferences.map(conference => conference.industry))];
+                this.archiveYears = [...new Set(this.archiveConferences.map(conference => conference.date.slice(-4)))];
+            }
+        },
+
+        chooseFilterConferences() {
+            if (this.filterByIndustry === 'all' && this.filterByYear === 'all')
+                this.filterConferences = this.archiveConferences
+            else {
+                this.filterConferences = this.archiveConferences
+                    .filter(({
+                                 date,
+                                 industry
+                             }) => ['all', industry].includes(this.filterByIndustry) && ['all', date.slice(-4)].includes(this.filterByYear))
+            }
+        }
+    }
 }
 
 </script>

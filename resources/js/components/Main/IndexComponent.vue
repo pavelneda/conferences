@@ -5,12 +5,16 @@
             <div class="shadow p-4 rounded flex-item">
                 <h3 class="fw-bold mb-4">Найближчі</h3>
                 <ListComponent :conferences="actualConferences"></ListComponent>
-                <div class="btn btn-outline-primary d-table m-auto">Більше конференцій</div>
+                <router-link :to="{ name: 'conferences' }" class="text-decoration-none">
+                    <div class="btn btn-outline-primary d-table m-auto ">Більше конференцій</div>
+                </router-link>
             </div>
             <div class="shadow p-4 rounded flex-item">
                 <h3 class="fw-bold mb-4">Архівні</h3>
                 <ListComponent :conferences="archiveConferences"></ListComponent>
-                <div class="btn btn-outline-primary d-table m-auto">До архіву</div>
+                <router-link :to="{ name: 'archive-conferences' }" class="text-decoration-none">
+                    <div class="btn btn-outline-primary d-table m-auto">До архіву</div>
+                </router-link>
 
             </div>
         </div>
@@ -61,7 +65,7 @@ export default {
     align-items: flex-start;
 }
 
-.flex-item{
-    flex: 1 1 0px;
+.flex-item {
+    flex: 1 1 0;
 }
 </style>
