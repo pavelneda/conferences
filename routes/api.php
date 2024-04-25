@@ -22,4 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'App\\Http\\Controllers\\Conference', 'prefix' => 'conferences'], function(){
     Route::get('/', 'ActualConference\\IndexController')->name('conferences.actual.index');
     Route::get('/archive', 'ArchiveConference\\IndexController')->name('conferences.archive.index');
+    Route::get('/{conference}', 'ShowController')->name('conferences.show');
 });
+
+Route::group(['namespace' => 'App\\Http\\Controllers\\Industry', 'prefix' => 'industries'], function(){
+    Route::get('/', 'IndexController')->name('industries.index');
+});
+

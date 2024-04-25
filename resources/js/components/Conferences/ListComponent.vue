@@ -8,15 +8,17 @@
                 </div>
                 <div class="flex-row d-flex align-items-baseline me-3">
                     <i class="fa-regular fa-calendar-days"></i>
-                    <h6 class="card-subtitle ms-1">{{conference.date }}</h6>
+                    <h6 class="card-subtitle ms-1">{{ conference.date }}</h6>
                 </div>
                 <div class="flex-row d-flex align-items-baseline me-3">
                     <i class="fa-solid fa-location-dot"></i>
                     <h6 class="card-subtitle ms-1">{{ conference.place }}</h6>
                 </div>
             </div>
-            <h4 class="card-title fw-semibold">{{ conference.title }}</h4>
-            <span class="card-link text-muted">Дізнатися більше</span>
+            <router-link :to="{ name: 'conferences.show', params: { id: conference.id } }" class="text-decoration-none">
+                <h4 class="card-title fw-semibold text-black">{{ conference.title }}</h4>
+                <span class="card-link text-muted">Дізнатися більше</span>
+            </router-link>
         </div>
     </div>
 
@@ -34,11 +36,11 @@ export default {
 </script>
 
 <style scoped>
-    i{
-        color: #6E41E2;
-    }
+i {
+    color: #6E41E2;
+}
 
-    .card{
-        padding: 0 1rem;
-    }
+.card {
+    padding: 0 1rem;
+}
 </style>

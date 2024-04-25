@@ -26,6 +26,11 @@ const routes = [
         name: 'archive-conferences',
         component: () => import("./components/Conferences/Archive conferences/IndexComponent.vue"),
     },
+    {
+        path: "/conferences/:id",
+        name: 'conferences.show',
+        component: () => import("./components/Conferences/ShowComponent.vue"),
+    },
 ];
 
 const router = createRouter({
