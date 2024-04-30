@@ -30,7 +30,7 @@ const routes = [
         path: "/conferences/:id",
         name: 'conferences.show',
         component: () => import("./components/Conferences/ShowComponent.vue"),
-    },
+    }
 ];
 
 const router = createRouter({
