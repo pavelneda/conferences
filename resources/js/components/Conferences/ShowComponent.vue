@@ -4,8 +4,12 @@
             <h1 class="page-title">{{ conference.title }}</h1>
             <div class="playerAndDesc d-flex flex-row mb-4">
                 <div class="player">
-                    <img src="/storage/images/player.png" alt="player">
-                    <p v-if="isVisibleFromDate(conference.date)" class="mt-2">*трансляція відбудеться згодом</p>
+                    <iframe v-if="conference.link" width="508" height="267" :src="conference.link"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <img v-if="!conference.link" src="/storage/images/player.png" alt="player">
+                    <p v-if="isVisibleFromDate(conference.date) && !conference.link" class="mt-2">*трансляція відбудеться згодом</p>
                 </div>
                 <div class="desc-block p-4">
                     <p>{{ conference.preview_text }}</p>

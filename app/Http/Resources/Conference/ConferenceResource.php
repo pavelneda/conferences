@@ -23,6 +23,7 @@ class ConferenceResource extends JsonResource
             'preview_text' => $this->preview_text,
             'description' => $this->description,
             'price' => $this->price,
+            'link' => $this->link,
             'application_deadline' => date('d.m.Y', $this->application_deadline / 1000),
         ];
     }
