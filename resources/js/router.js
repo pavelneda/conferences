@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 
 const routes = [
     {
@@ -30,6 +30,17 @@ const routes = [
         path: "/conferences/:id",
         name: 'conferences.show',
         component: () => import("./components/Conferences/ShowComponent.vue"),
+    },
+    {
+        path: "/materials",
+        name: 'materials',
+        component: () => import("./components/Materials/IndexComponent.vue"),
+        props: (route) => ({ query: route.query })
+    },
+    {
+        path: "/materials/:id",
+        name: 'materials.show',
+        component: () => import("./components/Materials/ShowComponent.vue"),
     }
 ];
 
@@ -42,16 +53,16 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('x_xsrf_token')
 
-    if(!token){
-        if(to.name === 'sign-in' || to.name === 'sign-up'){
+    if (!token) {
+        if (to.name === 'sign-in' || to.name === 'sign-up') {
             return next()
-        }else{
+        } else {
             return next({
                 name: 'sign-in'
             })
         }
-    }else{
-        if(to.name === 'sign-in' || to.name === 'sign-up'){
+    } else {
+        if (to.name === 'sign-in' || to.name === 'sign-up') {
             return next({
                 name: 'main'
             })
@@ -60,6 +71,7 @@ router.beforeEach((to, from, next) => {
 
     next()
 })
+
 
 
 export default router;

@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Conference\ActualConference;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Conference\IndexRequest;
 use App\Http\Resources\Conference\ConferenceResource;
 use App\Models\Conference;
 use Carbon\Carbon;
 
 class IndexController extends Controller
 {
-    public function __invoke()
+    public function __invoke(IndexRequest $request)
     {
 
-        $actual_conferences = Conference::where('date', '>=', Carbon::now()->timestamp * 1000)->get();
+        if ($request->input('count')) {
+            $actual_conferences = Conference::where('date', '>=', Carbon::now()->timestamp * 1000)->orderBy('date', 'asc')->limit($request->input('count'))->get();
+        } else {
+            $actual_conferences = Conference::where('date', '>=', Carbon::now()->timestamp * 1000)->orderBy('date', 'asc')->get();
+        }
 
         return ConferenceResource::collection($actual_conferences);
     }

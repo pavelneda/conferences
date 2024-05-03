@@ -52,6 +52,10 @@ export default {
 
     mounted() {
         this.getConferences();
+
+        if (this.$route.query.industry) this.filterByIndustry = this.$route.query.industry;
+        if (this.$route.query.year) this.filterByYear = this.$route.query.year;
+
     },
 
     methods: {
@@ -72,6 +76,8 @@ export default {
         },
 
         chooseFilterConferences() {
+            this.editQuery();
+
             if (this.filterByIndustry === 'all' && this.filterByYear === 'all')
                 this.filterConferences = this.archiveConferences
             else {
@@ -81,6 +87,18 @@ export default {
                                  industry
                              }) => ['all', industry].includes(this.filterByIndustry) && ['all', date.slice(-4)].includes(this.filterByYear))
             }
+        },
+
+        editQuery(){
+            const query = Object.assign({}, this.$route.query);
+
+            if (this.filterByIndustry === 'all') delete query.industry;
+            else query.industry = this.filterByIndustry;
+
+            if (this.filterByYear === 'all') delete query.year;
+            else query.year = this.filterByYear;
+
+            this.$router.replace({query})
         }
     }
 }

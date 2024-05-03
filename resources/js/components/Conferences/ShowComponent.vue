@@ -33,7 +33,8 @@
                         conference.application_deadline
                     }}</p>
                 <div class="application-form__wrapper">
-                    <form>
+                    <p class="text-danger fw-bold" v-if="!token">Щоб подати заяву на участь ви маєте залогінитись</p>
+                    <form v-if="token">
                         <div class="row mb-4">
                             <div class="form-floating col ">
                                 <input required v-model="author" type="text" class="form-control shadow-sm " id="name">
@@ -96,10 +97,12 @@
                 </div>
             </div>
             <div class="materials mb-5" v-if="!isVisibleFromDate(conference.application_deadline)">
-                <h3 class="fw-semibold">
+                <h3 class="fw-semibold mb-3">
                     Матеріали
                 </h3>
-                <list-component :materials="getMaterials()"></list-component>
+                <div class="list-component__wrapper">
+                    <list-component :materials="materials" v-if="materials"></list-component>
+                </div>
             </div>
             <p class="mb-3">
                 {{ conference.description }}
@@ -131,12 +134,16 @@ export default {
             industry: null,
             university: null,
 
+            materials: null,
+
             error: null,
             confirmed: null,
+            token: null,
         }
     },
 
     mounted() {
+        this.getToken();
         this.getConference();
         this.getIndustries();
     },
@@ -146,6 +153,8 @@ export default {
             axios.get(`/api/conferences/${this.$route.params.id}`)
                 .then(res => {
                     this.conference = res.data.data;
+                    if (!this.isVisibleFromDate(this.conference.application_deadline))
+                        this.getMaterials();
                 })
         },
 
@@ -159,7 +168,7 @@ export default {
         getMaterials() {
             axios.get(`/api/conferences/${this.conference.id}/materials`)
                 .then(res => {
-                    console.log(res.data.data);
+                    this.materials = res.data.data;
                 })
         },
 
@@ -185,6 +194,7 @@ export default {
                 .catch(err => {
                     this.error = err.response.data.message
                 })
+
         },
 
 
@@ -195,6 +205,10 @@ export default {
 
             return new Date(date[2], date[1] - 1, date[0]) >= today;
         },
+
+        getToken() {
+            this.token = localStorage.getItem('x_xsrf_token')
+        }
 
     }
 
@@ -266,6 +280,12 @@ p {
         top: 40%;
         left: 2%;
     }
+
+
+}
+
+.list-component__wrapper {
+    width: 65%;
 }
 
 

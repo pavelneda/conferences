@@ -34,6 +34,11 @@ Route::group(['namespace' => 'App\\Http\\Controllers\\Industry', 'prefix' => 'in
 });
 
 Route::group(['namespace' => 'App\\Http\\Controllers\\Material', 'prefix' => 'materials'], function () {
-    Route::post('/', 'StoreController')->name('materials.store');
+    Route::get('/', 'IndexController')->name('materials.index');
+    Route::get('/{material}', 'ShowController')->name('materials.show');
+
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('/', 'StoreController')->name('materials.store');
+    });
 });
 

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <header
-            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            class="d-flex flex-wrap align-items-center py-3 mb-4 border-bottom">
             <div class="col-md-3  logo-wrapper">
                 <router-link :to="{ name: 'main' }">
                     <a href="#" class="d-inline-flex link-body-emphasis text-decoration-none">
@@ -12,15 +12,17 @@
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <router-link :to="{ name: 'conferences' }" class="nav-link px-2">
-                    <li>Найближчі конференції</li>
+                    <li class="nav__link">Найближчі конференції</li>
                 </router-link>
                 <router-link :to="{ name: 'archive-conferences' }" class="nav-link px-2">
-                    <li>Архів конференцій</li>
+                    <li class="nav__link">Архів конференцій</li>
                 </router-link>
-                <li><a href="#" class="nav-link px-2">Матеріали</a></li>
+                <router-link :to="{ name: 'materials' }" class="nav-link px-2">
+                    <li class="nav__link">Матеріали</li>
+                </router-link>
             </ul>
 
-            <div class="col-md-3 text-end">
+            <div class="col-md-3 text-end ms-auto">
                 <router-link :to="{ name: 'sign-in' }" v-if="!token">
                     <button type="button" class="btn btn-outline-primary me-2">Log in</button>
                 </router-link>
@@ -71,6 +73,19 @@ export default {
     margin-bottom: -3rem;
     margin-top: -3rem;
     margin-left: -5rem;
+}
+
+.nav__link{
+    font-size: 1rem;
+    color: #6B6B6B;
+
+}
+
+.router-link-active{
+    .nav__link{
+        color: black;
+        border-bottom: solid 2px #6E41E2;
+    }
 }
 
 </style>

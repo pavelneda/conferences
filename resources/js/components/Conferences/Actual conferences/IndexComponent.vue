@@ -2,7 +2,8 @@
     <div class="container">
         <h1 class="page-title">Найближчі конференції</h1>
         <div class="form-floating mb-lg-5 shadow-sm">
-            <select v-model="filterByIndustry" @click.prevent="chooseFilterConferences" class="form-select form-select-lg" id="floatingSelectGrid">
+            <select v-model="filterByIndustry" @click.prevent="chooseFilterConferences"
+                    class="form-select form-select-lg" id="floatingSelectGrid">
                 <option selected value="all">Всі галузі</option>
                 <option v-if="actualIndustries" v-for="industry in actualIndustries" :value="industry">{{
                         industry
@@ -31,11 +32,15 @@ export default {
 
             filterConferences: null,
             filterByIndustry: 'all',
+
+            token: null,
         }
     },
 
     mounted() {
         this.getConferences();
+
+        if (this.$route.query.industry) this.filterByIndustry = this.$route.query.industry;
     },
 
 
@@ -55,10 +60,21 @@ export default {
         },
 
         chooseFilterConferences() {
+            this.editQuery();
+
             if (this.filterByIndustry === 'all')
                 this.filterConferences = this.actualConferences
             else
                 this.filterConferences = this.actualConferences.filter(conference => conference.industry === this.filterByIndustry)
+        },
+
+        editQuery() {
+            const query = Object.assign({}, this.$route.query);
+
+            if (this.filterByIndustry === 'all') delete query.industry;
+            else query.industry = this.filterByIndustry;
+
+            this.$router.replace({query})
         }
 
     }

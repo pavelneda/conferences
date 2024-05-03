@@ -21,6 +21,7 @@ class MaterialResource extends JsonResource
             'university' => $this->university,
             'industry' => $this->industry->title,
             'url' => $this->url,
+            'date' => $this->created_at,
         ];
     }
 }
