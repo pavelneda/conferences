@@ -7,6 +7,7 @@
 import './bootstrap';
 import { createApp } from 'vue';
 import router from "./router.js";
+import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs'
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -15,6 +16,7 @@ import router from "./router.js";
  */
 
 const app = createApp({});
+app.use(LaravelPermissionToVueJS);
 
 import App from './components/App.vue';
 app.component('app-component', App);
@@ -38,3 +40,9 @@ app.component('app-component', App);
  */
 
 app.use(router).mount('#app');
+
+axios.get('/api/get-permissions').then(
+    response => {
+        window.Laravel.jsPermissions = response.data;
+    }
+);

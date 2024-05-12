@@ -17,14 +17,15 @@ class ConferenceResource extends JsonResource
         return [
             'title' => $this->title,
             'id' => $this->id,
-            'date' => date('d.m.Y', $this->date / 1000),
+            'date' => date('d.m.Y', strtotime($this->date)),
             'industry' => $this->industry->title,
+            'industry_id' => $this->industry->id,
             'place' => $this->place,
             'preview_text' => $this->preview_text,
             'description' => $this->description,
             'price' => $this->price,
             'link' => $this->link,
-            'application_deadline' => date('d.m.Y', $this->application_deadline / 1000),
+            'application_deadline' => date('d.m.Y', strtotime($this->application_deadline)),
         ];
     }
 }

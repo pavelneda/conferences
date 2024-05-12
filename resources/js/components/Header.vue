@@ -29,6 +29,12 @@
                 <router-link :to="{ name: 'sign-up' }" v-if="!token">
                     <button type="button" class="btn btn-primary">Sign-up</button>
                 </router-link>
+                <router-link :to="{ name: 'account' }" v-if="token">
+                    <button type="button" class="btn btn-primary me-2">Account</button>
+                </router-link>
+                <router-link :to="{ name: 'admin.materials' }" v-if="is('supervisor') && token">
+                    <button type="button" class="btn btn-primary me-2">Admin</button>
+                </router-link>
                 <button @click.prevent="logout" v-if="token" type="button" class="btn btn-primary">Logout</button>
             </div>
         </header>

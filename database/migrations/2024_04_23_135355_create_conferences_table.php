@@ -23,9 +23,9 @@ return new class extends Migration
             $table->unsignedBigInteger('industry_id');
             $table->timestamps();
 
-            $table->index('industry_id', 'industry_conference_idx');
-            $table->foreign('industry_id', 'industry_conference_fk')->on('industries')->references('id');
         });
+
+
     }
 
     /**

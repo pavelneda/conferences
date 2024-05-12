@@ -14,9 +14,9 @@ class IndexController extends Controller
     {
 
         if ($request->input('count')) {
-            $archive_conferences = Conference::where('date', '<', Carbon::now()->timestamp  * 1000)->orderBy('date', 'desc')->limit($request->input('count'))->get();
+            $archive_conferences = Conference::where('date', '<', Carbon::now())->orderBy('date', 'desc')->limit($request->input('count'))->get();
         }else{
-            $archive_conferences = Conference::where('date', '<', Carbon::now()->timestamp  * 1000)->orderBy('date', 'desc')->get();
+            $archive_conferences = Conference::where('date', '<', Carbon::now())->orderBy('date', 'desc')->get();
         }
 
         return ConferenceResource::collection($archive_conferences);

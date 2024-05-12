@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::table('conferences', function (Blueprint $table) {
             $table->string('link')->nullable();
+            $table->index('industry_id', 'industry_conference_idx');
+            $table->foreign('industry_id', 'industry_conference_fk')->on('industries')->references('id');
+
         });
     }
 
@@ -23,6 +26,8 @@ return new class extends Migration
     {
         Schema::table('conferences', function (Blueprint $table) {
             $table->dropColumn('link');
+            $table->dropForeign('industry_conference_fk');
+            $table->dropIndex('industry_conference_idx');
         });
     }
 };

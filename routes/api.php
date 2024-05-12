@@ -18,6 +18,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/get-permissions', function () {
+    return auth()->check() ? auth()->user()->jsPermissions() : 0;
+});
+
 
 Route::group(['namespace' => 'App\\Http\\Controllers\\Conference', 'prefix' => 'conferences'], function () {
     Route::get('/', 'ActualConference\\IndexController')->name('conferences.actual.index');
@@ -42,3 +46,17 @@ Route::group(['namespace' => 'App\\Http\\Controllers\\Material', 'prefix' => 'ma
     });
 });
 
+Route::group(['namespace' => 'App\\Http\\Controllers\\Admin', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
+    Route::group(['namespace' => 'Material', 'prefix' => 'materials'], function () {
+        Route::get('/', 'IndexController')->name('admin.materials.index');
+        Route::delete('/{material}', 'DeleteController')->name('admin.materials.delete');
+        Route::patch('/{material}', 'UpdateController')->name('admin.materials.update');
+    });
+
+    Route::group(['namespace' => 'Conference', 'prefix' => 'conferences'], function () {
+        Route::get('/', 'IndexController')->name('admin.conferences.index');
+        Route::delete('/{conference}', 'DeleteController')->name('admin.conferences.delete');
+        Route::patch('/{conference}', 'UpdateController')->name('admin.conference.update');
+    });
+
+});

@@ -17,6 +17,43 @@ const routes = [
         component: () => import("./components/Authorization/Registration.vue"),
     },
     {
+        path: "/account",
+        name: 'account',
+        component: () => import("./components/Authorization/Account.vue"),
+    },
+    {
+        path: "/admin",
+        name: 'admin',
+        component: () => import("./components/Admin/IndexComponent.vue"),
+        children: [
+            {
+                path: "materials",
+                name: 'admin.materials',
+                component: () => import("./components/Admin/Materials/IndexComponent.vue"),
+            },
+            {
+                path: "materials/:id/edit",
+                name: 'admin.materials.edit',
+                component: () => import("./components/Admin/Materials/EditComponent.vue"),
+            },
+            {
+                path: "conferences",
+                name: 'admin.conferences',
+                component: () => import("./components/Admin/Conferences/IndexComponent.vue"),
+            },
+            {
+                path: "conferences/:id/edit",
+                name: 'admin.conferences.edit',
+                component: () => import("./components/Admin/Conferences/EditComponent.vue"),
+            },
+            {
+                path: "users",
+                name: 'admin.users',
+                component: () => import("./components/Admin/Users/IndexComponent.vue"),
+            },
+        ]
+    },
+    {
         path: "/conferences",
         name: 'conferences',
         component: () => import("./components/Conferences/Actual conferences/IndexComponent.vue"),
@@ -35,7 +72,7 @@ const routes = [
         path: "/materials",
         name: 'materials',
         component: () => import("./components/Materials/IndexComponent.vue"),
-        props: (route) => ({ query: route.query })
+        props: (route) => ({query: route.query})
     },
     {
         path: "/materials/:id",
@@ -71,7 +108,6 @@ router.beforeEach((to, from, next) => {
 
     next()
 })
-
 
 
 export default router;

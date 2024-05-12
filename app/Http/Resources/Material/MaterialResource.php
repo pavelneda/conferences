@@ -20,8 +20,11 @@ class MaterialResource extends JsonResource
             'author' => $this->author,
             'university' => $this->university,
             'industry' => $this->industry->title,
+            'industry_id' => $this->industry->id,
             'url' => $this->url,
+            'path' => $this->path,
             'date' => $this->created_at,
+            'confirmed' => $this->confirmed,
         ];
     }
 }
